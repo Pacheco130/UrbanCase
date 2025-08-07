@@ -1,0 +1,34 @@
+.notificacion-carrito {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+  color: #fff;
+  padding: 1.1em 2em;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 18px #6A5ACD33, 0 1.5px 8px #BA55D344;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s, transform 0.35s cubic-bezier(.36,1.4,.36,1), box-shadow 0.35s;
+  transform: translateY(-24px) scale(0.96);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+.notificacion-carrito.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1.06);
+  box-shadow: 0 8px 32px #6A5ACD44, 0 2px 12px #BA55D344;
+}
+@media (max-width: 600px) {
+  .notificacion-carrito {
+    right: 8px;
+    left: 8px;
+    top: 12px;
+    font-size: 1em;
+    padding: 0.8em 1em;
+  }
+}

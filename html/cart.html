@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://127.0.0.1:5000; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <title>Carrito de Compras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Vincula el CSS del carrito -->
+    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="../css/formulario-entrega.css">
+    <link rel="stylesheet" href="../css/notificacion.css">
+</head>
+<body>
+    <div class="ticket-container">
+        <!-- Cabecera con logo y botón volver -->
+        <div class="cart-header">
+            <a href="../index.html" class="logo-link" title="Volver a la tienda">
+                <img src="../Img/Logo2.png" alt="Logo de la tienda" class="cart-logo" />
+            </a>
+            <a href="../index.html" class="back-btn">
+                <span class="back-icon">&#8592;</span>
+                Volver a la tienda
+            </a>
+        </div>
+
+        <!-- Carrito principal -->
+        <div class="ticket">
+            <ul id="items-list">
+                <li style="--i:1" data-precio="55.00">
+                    Funda para celular x1
+                    <button class="remove-btn">Eliminar</button>
+                </li>
+                <li style="--i:2" data-precio="29.99">
+                    Cargador Inalámbrico x1
+                    <button class="remove-btn">Eliminar</button>
+                </li>
+                <li style="--i:3" data-precio="15.99">
+                    Soporte para celular x1
+                    <button class="remove-btn">Eliminar</button>
+                </li>
+            </ul>
+            <div class="cart-total">
+                <strong>Total:</strong> <span id="cart-total-amount">$0.00 MXN</span>
+            </div>
+            <button class="checkout-btn" id="btn-continuar">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Formulario de entrega y datos bancarios (oculto al inicio) -->
+    <div class="checkout-form-container" id="checkout-form-container" style="display:none;">
+        <div class="checkout-flex">
+            <form class="entrega-form" id="form-entrega">
+                <h3>Datos de Entrega</h3>
+                <label>Nombre completo
+                    <input type="text" name="nombre" required>
+                </label>
+                <label>Dirección
+                    <input type="text" name="direccion" required>
+                </label>
+                <label>Ciudad
+                    <input type="text" name="ciudad" required>
+                </label>
+                <label>Código Postal
+                    <input type="text" name="cp" required pattern="[0-9]{5}">
+                </label>
+                <label>Teléfono
+                    <input type="tel" name="telefono" required pattern="^\+?\d{10,15}$" title="Ingresa un teléfono válido (10 a 15 dígitos, opcional +)">
+                </label>
+            </form>
+            <form class="banco-info" id="form-banco" autocomplete="off">
+                <h3>Información Bancaria</h3>
+                <label>Titular
+                    <input type="text" name="titular" required>
+                </label>
+                <label>Banco
+                    <input type="text" name="banco" required>
+                </label>
+                <label>CLABE
+                    <input type="text" name="clabe" required pattern="[0-9]{18}">
+                </label>
+                <label>Número de tarjeta
+                    <input type="text" name="tarjeta" required pattern="[0-9 ]{16,19}">
+                </label>
+                <p style="font-size:0.95em;color:#888;">Realiza tu pago y envía tu comprobante al WhatsApp de la tienda.</p>
+                            </form>
+            <button type="submit" class="add-to-cart" id="btn-confirmar" style="margin-top:18px;align-self:flex-start;">Confirmar pedido</button>
+        </div>
+    </div>
+    <!--
+    CIBERSEGURIDAD:
+    - No guardar datos sensibles (bancarios, personales) en localStorage ni exponerlos en el frontend.
+    - No exponer claves, tokens ni lógica crítica en el frontend.
+    - Validar SIEMPRE en el backend si se implementa en el futuro.
+    -->
+    <script src="../js/cart.js"></script>
+    <script src="../js/cookies.js"></script>
+    <script src="../js/cart-inline.js"></script>
+    <script src="../js/ticket.js"></script>
+    <style>
+    #mensaje-confirmacion {
+        display: none;
+        position: fixed;
+        left: 0; top: 0; right: 0; bottom: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(60,40,90,0.18);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        transition: background 0.3s;
+    }
+    #mensaje-confirmacion span {
+        background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+        color: #fff;
+        padding: 2rem 2.5rem;
+        border-radius: 18px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        box-shadow: 0 2px 18px #6A5ACD33;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.4s, transform 0.4s;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+    #mensaje-confirmacion.visible span {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+    /* Dinosaurio animalito animado */
+    .dino-animalito {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 8px;
+      margin-top: 8px;
+    }
+    .dino-cuerpo {
+      position: relative;
+      width: 70px;
+      height: 54px;
+      background: #7ed957;
+      border-radius: 40% 60% 60% 40%/60% 60% 60% 60%;
+      box-shadow: 0 2px 8px #6A5ACD33;
+      z-index: 2;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .dino-cola {
+      position: absolute;
+      left: -28px; bottom: 8px;
+      width: 32px; height: 18px;
+      background: #7ed957;
+      border-radius: 60% 0 80% 60%/100% 0 100% 100%;
+      transform: rotate(-18deg);
+      z-index: 0;
+      animation: dino-cola-move 1.2s infinite cubic-bezier(.7,0,.3,1);
+      box-shadow: -2px 2px 0 #5fa13c;
+    }
+    @keyframes dino-cola-move {
+      0%, 100% { transform: rotate(-18deg); }
+      40% { transform: rotate(-38deg); }
+      60% { transform: rotate(-8deg); }
+      80% { transform: rotate(-28deg); }
+    }
+    .dino-panza {
+      position: absolute;
+      left: 18px; bottom: 0;
+      width: 28px; height: 18px;
+      background: #b6f7a1;
+      border-radius: 50%;
+      z-index: 1;
+      opacity: 0.7;
+    }
+    .dino-pierna {
+      position: absolute;
+      width: 10px; height: 18px;
+      background: #5fa13c;
+      border-radius: 40% 40% 60% 60%/60% 60% 80% 80%;
+      bottom: -6px;
+      z-index: 2;
+    }
+    .dino-pierna-izq { left: 18px; }
+    .dino-pierna-der { left: 38px; }
+    .dino-brazo {
+      position: absolute;
+      width: 8px; height: 14px;
+      background: #5fa13c;
+      border-radius: 40% 40% 60% 60%/60% 60% 80% 80%;
+      top: 28px;
+      z-index: 3;
+      transform: rotate(18deg);
+    }
+    .dino-brazo-izq { left: 8px; }
+    .dino-brazo-der { left: 48px; }
+    .dino-cabeza {
+      position: absolute;
+      right: -32px; top: 0;
+      width: 38px; height: 34px;
+      background: #7ed957;
+      border-radius: 60% 60% 60% 60%/80% 80% 60% 60%;
+      box-shadow: 2px 2px 0 #5fa13c;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dino-ojo {
+      position: absolute;
+      left: 22px; top: 10px;
+      width: 8px; height: 8px;
+      background: #222;
+      border-radius: 50%;
+      animation: dino-ojo-parpadeo 2.2s infinite;
+    }
+    @keyframes dino-ojo-parpadeo {
+      0%, 92%, 100% { height: 8px; }
+      95% { height: 2px; }
+    }
+    .dino-mejilla {
+      position: absolute;
+      left: 10px; top: 18px;
+      width: 7px; height: 7px;
+      background: #ffb6c1;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    .dino-boca {
+      position: absolute;
+      left: 20px; top: 22px;
+      width: 12px; height: 6px;
+      border-bottom: 2px solid #6A5ACD;
+      border-radius: 0 0 12px 12px;
+    }
+    .dino-cresta {
+      position: absolute;
+      left: 6px; top: -6px;
+      width: 8px; height: 14px;
+      background: #6A5ACD;
+      border-radius: 60% 60% 60% 60%/80% 80% 60% 60%;
+      transform: rotate(-18deg);
+      opacity: 0.7;
+    }
+    </style>
+<footer>
+        <div style="display:flex;align-items:center;gap:1.2em;justify-content:center;flex-wrap:wrap;">
+            <span>&copy; 2025 UrbanCase</span>
+            <a href="privacidad.html" class="btn-privacidad">Aviso de Privacidad</a>
+        </div>
+    </footer>
+    <style>
+    .btn-privacidad {
+        background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.4em 1.2em;
+        font-weight: bold;
+        font-size: 1em;
+        text-decoration: none;
+        transition: background 0.2s;
+        box-shadow: 0 1px 6px #6A5ACD22;
+        margin-left: 0.5em;
+        display: inline-block;
+    }
+    .btn-privacidad:hover {
+        background: linear-gradient(90deg, #483D8B 60%, #8A2BE2 100%);
+    }
+    </style>
+</body>
+</html>

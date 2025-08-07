@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanCase</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/notificacion.css">
+</head>
+<body>
+    <header>
+        <img src="./Img/Logo2.png" alt="Logo de la empresa" class="logo">
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="html/productos.html">Productos</a>
+            <a href="html/contacto.html">Contacto</a>
+            <a href="html/cart.html" class="cart-link">
+                <div class="cart-icon">
+                    <span class="icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </div>
+            </a>
+        </nav>
+    </header>
+
+    <section class="carousel-container">
+        <div class="carousel-slide">
+            <img src="Img/Banner1.jpg" alt="Banner 1">
+            <img src="Img/Banner2.jpg" alt="Banner 2">
+            <img src="Img/Banner1.jpg" alt="Banner 3">
+        </div>
+        <button class="carousel-prev">❮</button>
+        <button class="carousel-next">❯</button>
+        <div class="carousel-dots"></div>
+    </section>
+
+    <section class="categories-section">
+        <h2>Explora Nuestras Categorías</h2>
+        <div class="categories-grid">
+            <a href="html/fundas.html" class="category-item">
+                <img src="/Img/FundasMenu.jpg" alt="Categoría Fundas">
+                <h3>Fundas</h3>
+            </a>
+            <a href="html/cargadores.html" class="category-item">
+                <img src="/Img/CargadoterMenu.jpg" alt="Categoría Cargadores">
+                <h3>Cargadores</h3>
+            </a>
+            <a href="html/audio.html" class="category-item">
+                <img src="/Img/MenuAudio.jpg" alt="Categoría Audio">
+                <h3>Audio</h3>
+            </a>
+            <a href="html/soportes.html" class="category-item">
+                <img src="/Img/MenuSoprte.jpg" alt="Categoría Soportes">
+                <h3>Soportes</h3>
+            </a>
+        </div>
+    </section>
+
+    <main>
+        <section id="productos">
+            <h1>Productos más vendidos</h1>
+            <div class="producto-lista">
+                <article class="producto">
+                    <img src="/Img/MT203.jpeg" alt="Producto A">
+                    <h2>Funda para celular</h2>
+                    <p>Funda Trasparente de Silicona</p>
+                    <p class="precio">Precio: $55.99 MXN</p>
+                    <button class="add-to-cart" data-product="Funda para celular">Añadir al carrito</button>
+                </article>
+                <article class="producto">
+                    <img src="/Img/CargadoIna.webp" alt="Producto B">
+                    <h2>Cargador Inalámbrico</h2>
+                    <p>Disfruta de carga rápida y sin cables.</p>
+                    <p class="precio">Precio: $19.99 MXN</p>
+                    <button class="add-to-cart" data-product="Cargador Inalámbrico">Añadir al carrito</button>
+                </article>
+                <article class="producto">
+                    <img src="/Img/SoporteP.webp" alt="Producto C">
+                    <h2>Soporte para celular</h2>
+                    <p>Ideal para ver vídeos sin tenerlo en mano.</p>
+                    <p class="precio">Precio: $39.99 MXN</p>
+                    <button class="add-to-cart" data-product="Soporte para celular">Añadir al carrito</button>
+                </article>
+                <article class="producto">
+                    <img src="/Img/Audifonos.webp" alt="Producto D">
+                    <h2>Auriculares Bluetooth</h2>
+                    <p>Conecta inalámbricamente y disfruta tu música.</p>
+                    <p class="precio">Precio: $89.99 MXN</p>
+                    <button class="add-to-cart" data-product="Auriculares Bluetooth">Añadir al carrito</button>
+                </article>
+                <article class="producto">
+                    <img src="/Img/Cargador.webp" alt="Producto E">
+                    <h2>Cargador USB-C</h2>
+                    <p>Carga rápida para tus dispositivos USB-C.</p>
+                    <p class="precio">Precio: $44.99 MXN</p>
+                    <button class="add-to-cart" data-product="Cargador USB-C">Añadir al carrito</button>
+                </article>
+            </div>
+        </section>
+    </main>
+<footer>
+        <div style="display:flex;align-items:center;gap:1.2em;justify-content:center;flex-wrap:wrap;">
+            <span>&copy; 2023 UrbanCase</span>
+            <a href="../html/terminos.html" class="btn-terminos">Términos y Condiciones</a>
+        </div>
+    </footer>
+    <style>
+    .btn-terminos {
+        background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.4em 1.2em;
+        font-weight: bold;
+        font-size: 1em;
+        text-decoration: none;
+        transition: background 0.2s;
+        box-shadow: 0 1px 6px #6A5ACD22;
+        margin-left: 0.5em;
+        display: inline-block;
+    }
+    .btn-terminos:hover {
+        background: linear-gradient(90deg, #483D8B 60%, #8A2BE2 100%);
+    }
+    </style>
+
+    <script src="js/script.js"></script>
+    <script src="js/animaciones.js"></script>
+</body>
+</html>

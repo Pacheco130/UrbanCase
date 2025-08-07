@@ -1,0 +1,315 @@
+/* Fondo moderno con animación sutil */
+body {
+    background: linear-gradient(120deg, #8A2BE2 0%, #4169E1 100%);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    animation: bg-move 12s ease-in-out infinite alternate;
+}
+
+@keyframes bg-move {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Cabecera del carrito con logo y botón de volver */
+.cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.2rem;
+    gap: 1.2rem;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.cart-logo {
+    height: 54px;
+    width: auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(106,90,205,0.13);
+    background: #fff;
+    transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s;
+}
+.logo-link:hover .cart-logo,
+.logo-link:focus .cart-logo {
+    transform: scale(1.07) rotate(-2deg);
+    box-shadow: 0 6px 24px rgba(106,90,205,0.22);
+}
+
+/* Botón de volver a la tienda */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    background: linear-gradient(90deg, #8A2BE2 60%, #6A5ACD 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.07rem;
+    padding: 0.7em 1.4em;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(106,90,205,0.10);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.back-btn::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+    z-index: 0;
+}
+.back-btn:active::after {
+    width: 140%;
+    height: 140%;
+}
+.back-btn:hover, .back-btn:focus {
+    background: linear-gradient(90deg, #6A5ACD 60%, #8A2BE2 100%);
+    transform: scale(1.04) rotate(-1deg);
+    box-shadow: 0 6px 24px rgba(106,90,205,0.22);
+}
+.back-icon {
+    font-size: 1.3em;
+    margin-right: 0.2em;
+    transition: transform 0.2s;
+}
+.back-btn:hover .back-icon,
+.back-btn:focus .back-icon {
+    transform: translateX(-4px) scale(1.15);
+}
+
+/* Glassmorphism para el contenedor principal */
+.ticket-container {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    max-width: 520px;
+    margin: 2.5rem auto;
+    padding: 2rem 1.5rem;
+    border: 1.5px solid rgba(138,43,226,0.13);
+    border-radius: 22px;
+    box-shadow: 0 8px 32px rgba(106,90,205,0.18);
+    transition: box-shadow 0.4s cubic-bezier(.4,2,.6,1), background 0.4s;
+    animation: fade-in 1.2s cubic-bezier(.4,2,.6,1);
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+/* Estilo para ticket */
+.ticket {
+    background: rgba(248,248,255,0.95);
+    margin: 2rem auto 1.5rem auto;
+    padding: 2.2rem 1.4rem;
+    border: 1.5px solid #e0e0f0;
+    border-radius: 16px;
+    max-width: 440px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(106,90,205,0.10);
+    transition: box-shadow 0.3s, background 0.3s;
+    animation: fade-in 1.5s 0.2s cubic-bezier(.4,2,.6,1) backwards;
+}
+
+/* Lista de items en el carrito */
+#items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+#items-list li {
+    display: flex;
+    padding: 0.7rem 0.2rem;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ececff;
+    font-size: 1.08rem;
+    background: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(106,90,205,0.06);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: item-fade-in 0.7s forwards;
+}
+#items-list li:nth-child(n) {
+    animation-delay: calc(0.1s * var(--i, 1));
+}
+#items-list li:last-child {
+    border-bottom: none;
+}
+
+@keyframes item-fade-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Botón de eliminar item */
+.remove-btn {
+    background: linear-gradient(90deg, #9370DB 60%, #8A2BE2 100%);
+    border: none;
+    padding: 0.5rem 0.95rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(106,90,205,0.10);
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+.remove-btn::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+    z-index: 0;
+}
+.remove-btn:active::after {
+    width: 120%;
+    height: 120%;
+}
+.remove-btn:hover, .remove-btn:focus {
+    background: linear-gradient(90deg, #8A2BE2 60%, #6A5ACD 100%);
+    transform: scale(1.07) rotate(-2deg);
+    box-shadow: 0 4px 16px rgba(106,90,205,0.18);
+}
+
+/* Botón de checkout */
+.checkout-btn {
+    background: linear-gradient(90deg, #6A5ACD 60%, #483D8B 100%);
+    border: none;
+    padding: 1.1rem 2.2rem;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.13rem;
+    letter-spacing: 0.7px;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 12px rgba(106,90,205,0.13);
+    margin-top: 1.5rem;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+}
+.checkout-btn::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.18);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+    z-index: 0;
+}
+.checkout-btn:active::after {
+    width: 140%;
+    height: 140%;
+}
+.checkout-btn:hover, .checkout-btn:focus {
+    background: linear-gradient(90deg, #483D8B 60%, #6A5ACD 100%);
+    transform: scale(1.04) rotate(1deg);
+    box-shadow: 0 6px 24px rgba(106,90,205,0.22);
+}
+
+/* Moderniza el icono del carrito */
+.cart-link {
+    display: inline-block;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    transition: transform 0.18s, box-shadow 0.18s;
+}
+.cart-icon {
+    background: rgba(248,248,255,0.95);
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(106,90,205,0.13);
+    padding: 0.8rem 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.22s, box-shadow 0.22s, border 0.22s;
+    border: 2px solid #d1d1e0;
+    position: relative;
+    overflow: hidden;
+}
+.cart-link:hover .cart-icon,
+.cart-link:focus .cart-icon {
+    background: linear-gradient(120deg, #6a5acd 60%, #8A2BE2 100%);
+    box-shadow: 0 6px 24px rgba(106,90,205,0.22);
+    border-color: #6a5acd;
+    transform: scale(1.08) rotate(-2deg);
+}
+.cart-icon .icon {
+    font-size: 1.7rem;
+    color: #6a5acd;
+    transition: color 0.22s;
+    z-index: 1;
+}
+.cart-link:hover .icon,
+.cart-link:focus .icon {
+    color: #fff;
+}
+
+/* Animación de rebote al hacer click */
+.cart-link:active .cart-icon {
+    animation: cart-bounce 0.35s;
+}
+@keyframes cart-bounce {
+    0% { transform: scale(1) rotate(-2deg);}
+    30% { transform: scale(1.18) rotate(2deg);}
+    60% { transform: scale(0.92) rotate(-2deg);}
+    100% { transform: scale(1) rotate(0);}
+}
+
+/* Responsive para móviles */
+@media (max-width: 600px) {
+    .cart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.7rem;
+    }
+    .cart-logo {
+        height: 40px;
+    }
+    .ticket-container, .ticket {
+        max-width: 98vw;
+        padding: 1rem 0.5rem;
+    }
+    .cart-icon {
+        padding: 0.6rem 0.7rem;
+    }
+    .checkout-btn {
+        padding: 0.9rem 1.2rem;
+        font-size: 1rem;
+    }
+    #items-list li {
+        font-size: 0.98rem;
+        padding: 0.5rem 0.1rem;
+    }
+}

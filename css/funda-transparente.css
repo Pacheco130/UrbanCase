@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #e9e6fa 60%, #f3e6fa 100%);
+}
+header {
+    background: rgba(75, 0, 130, 0.8);
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo {
+    max-width: 100px;
+    height: auto;
+}
+nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    transition: color 0.4s;
+}
+nav a:hover {
+    color: #BA55D3;
+}
+.cart-link {
+    display: flex;
+    align-items: center;
+}
+.cart-icon {
+    background: #fff;
+    border: 1px solid #9370DB;
+    padding: 8px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.cart-icon .icon {
+    font-size: 1.2rem;
+}
+main {
+    min-height: 80vh;
+}
+.btn-volver {
+    background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.4s, box-shadow 0.4s, transform 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(106,90,205,0.08);
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin: 18px 0 28px 18px;
+    text-decoration: none;
+    font-size: 1rem;
+}
+.btn-volver:hover {
+    background: linear-gradient(90deg, #BA55D3 0%, #6A5ACD 100%);
+    box-shadow: 0 4px 16px rgba(186,85,211,0.18);
+    transform: scale(1.07) rotate(-1deg);
+}
+.producto-detalle {
+    max-width: 800px;
+    margin: 40px auto 32px auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(106,90,205,0.13), 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+}
+.producto-detalle-img {
+    flex: 1 1 320px;
+    min-width: 280px;
+    background: linear-gradient(135deg, #e9e6fa 60%, #f3e6fa 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 0;
+}
+.producto-detalle-img img {
+    max-width: 90%;
+    max-height: 340px;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px #e0d6f7;
+    background: #f8f8ff;
+}
+.producto-detalle-info {
+    flex: 1 1 340px;
+    min-width: 260px;
+    padding: 36px 32px 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.producto-detalle-info h1 {
+    font-size: 2.1rem;
+    color: #6A5ACD;
+    margin-bottom: 0.5rem;
+}
+.producto-detalle-info .precio {
+    color: #BA55D3;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.7rem;
+}
+.producto-detalle-info p {
+    color: #444;
+    font-size: 1.08rem;
+    margin-bottom: 0.7rem;
+}
+.producto-detalle-info .add-to-cart {
+    margin-top: 1.2rem;
+    font-size: 1.1rem;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    transition: background 0.4s, box-shadow 0.4s, transform 0.3s;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(106,90,205,0.08);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.producto-detalle-info .add-to-cart:hover {
+    background: linear-gradient(90deg, #BA55D3 0%, #6A5ACD 100%);
+    box-shadow: 0 4px 16px rgba(186,85,211,0.18);
+    transform: scale(1.07) rotate(-1deg);
+}
+footer {
+    background-color: #2F004F;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 2rem;
+}
+@media (max-width: 700px) {
+    .producto-detalle {
+        flex-direction: column;
+        max-width: 98vw;
+        margin: 18px auto 18px auto;
+    }
+    .producto-detalle-info {
+        padding: 24px 12px 24px 12px;
+    }
+    .producto-detalle-img {
+        padding: 18px 0;
+    }
+}

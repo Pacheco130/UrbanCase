@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - UrbanCase</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/notificacion.css">
+    <style>
+        .contacto-container {
+            max-width: 480px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #ccc;
+            padding: 2rem 2.5rem 2.5rem 2.5rem;
+        }
+        .contacto-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .contacto-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .contacto-form input,
+        .contacto-form textarea {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        .contacto-form button {
+            width: 100%;
+            background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+            color: #fff;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .contacto-form button:hover {
+            background: linear-gradient(90deg, #483D8B 60%, #8A2BE2 100%);
+        }
+        .contacto-exito {
+            display: none;
+            text-align: center;
+            color: #4CAF50;
+            font-weight: bold;
+            margin-top: 1.2rem;
+        }
+        @media (max-width: 600px) {
+            .contacto-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="../Img/Logo2.png" alt="Logo de la empresa" class="logo">
+        <nav>
+            <a href="../index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="#">Contacto</a>
+            <a href="cart.html" class="cart-link">
+                <div class="cart-icon">
+                    <span class="icon">���</span>
+                </div>
+            </a>
+        </nav>
+    </header>
+    <main>
+        <div class="contacto-container">
+            <h2>Contáctanos</h2>
+            <form class="contacto-form" id="contacto-form">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Ingresa un correo electrónico válido">
+
+                <label for="asunto">Asunto</label>
+                <input type="text" id="asunto" name="asunto" required>
+
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+
+                <button type="submit">Enviar mensaje</button>
+            </form>
+            <div class="contacto-exito" id="contacto-exito">
+                ¡Gracias por contactarnos! Te responderemos pronto.
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div style="display:flex;align-items:center;gap:1.2em;justify-content:center;flex-wrap:wrap;">
+            <span>&copy; 2023 UrbanCase</span>
+            <a href="terminos.html" class="btn-terminos">Términos y Condiciones</a>
+        </div>
+    </footer>
+    <style>
+    .btn-terminos {
+        background: linear-gradient(90deg, #6A5ACD 60%, #BA55D3 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.4em 1.2em;
+        font-weight: bold;
+        font-size: 1em;
+        text-decoration: none;
+        transition: background 0.2s;
+        box-shadow: 0 1px 6px #6A5ACD22;
+        margin-left: 0.5em;
+        display: inline-block;
+    }
+    .btn-terminos:hover {
+        background: linear-gradient(90deg, #483D8B 60%, #8A2BE2 100%);
+    }
+    </style>
+    <script>
+    document.getElementById('contacto-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('contacto-exito').style.display = 'block';
+        this.reset();
+        setTimeout(() => {
+            document.getElementById('contacto-exito').style.display = 'none';
+        }, 4000);
+    });
+    </script>
+    <script src="../js/cookies.js"></script>
+</body>
+</html>
