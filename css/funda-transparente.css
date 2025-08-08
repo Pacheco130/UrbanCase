@@ -155,6 +155,19 @@ footer {
     padding: 1rem 2rem;
 }
 @media (max-width: 700px) {
+    header {
+        flex-direction: column;
+        padding: 0.7rem 1rem;
+        gap: 0.7rem;
+    }
+    nav {
+        flex-direction: column;
+        gap: 0.7rem;
+        width: 100%;
+    }
+    .logo {
+        max-width: 70px;
+    }
     .producto-detalle {
         flex-direction: column;
         max-width: 98vw;
@@ -166,4 +179,14 @@ footer {
     .producto-detalle-img {
         padding: 18px 0;
     }
+    .btn-volver {
+        font-size: 0.95rem;
+        padding: 0.4rem 0.7rem;
+        margin: 12px 0 18px 8px;
+    }
+    footer {
+        padding: 0.7rem 0.5rem;
+        font-size: 0.95rem;
+    }
 }
+
