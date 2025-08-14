@@ -36,6 +36,7 @@ def get_next_pedido_id():
 def generar_ticket():
     data = request.json
     nombre = data.get('nombre', 'Cliente')
+    correo = data.get('correo', '')  # Nuevo campo
     direccion = data.get('direccion', '')
     ciudad = data.get('ciudad', '')
     telefono = data.get('telefono', '')
@@ -49,89 +50,106 @@ def generar_ticket():
     c = canvas.Canvas(buffer, pagesize=MEDIA_CARTA)
     width, height = MEDIA_CARTA
 
-    # --- Marca de agua (logo mucho más grande y visible) ---
+    # --- Marca de agua (logo grande y visible, tono suave) ---
     if os.path.exists(LOGO_PATH):
         logo = ImageReader(LOGO_PATH)
         c.saveState()
         c.translate(width/2, height/2)
-        c.rotate(20)
-        c.setFillAlpha(0.28)
-        # Logo aún más grande y centrado
+        c.rotate(15)
+        c.setFillAlpha(0.10)
         c.drawImage(logo, -210, -140, width=420, height=260, mask='auto', preserveAspectRatio=True)
         c.setFillAlpha(1)
         c.restoreState()
 
-    # --- Encabezado con fondo ---
-    encabezado_top = height - 30
-    encabezado_height = 70
+    # --- Encabezado elegante con gradiente y sombra ---
+    encabezado_top = height - 36
+    encabezado_height = 74
+    c.saveState()
     c.setFillColor(colors.HexColor('#6A5ACD'))
-    c.roundRect(20, encabezado_top - encabezado_height, width-40, encabezado_height, 14, fill=1, stroke=0)
-    # Número de pedido arriba a la derecha
-    c.setFont('Helvetica-Bold', 11)
-    c.setFillColor(colors.white)
-    c.drawRightString(width-35, encabezado_top-10, f"Pedido #{pedido_id_str}")
-    # Título centrado debajo del encabezado
-    c.setFont('Helvetica-Bold', 15)
-    c.drawCentredString(width/2, encabezado_top-38, 'UrbanCase - Ticket de Compra')
-
-    # Datos del cliente (más espacio)
-    datos_top = encabezado_top - encabezado_height - 10
-    c.setFont('Helvetica', 10)
-    c.setFillColor(colors.black)
-    c.drawString(30, datos_top, f'Fecha: {fecha}')
-    c.drawString(30, datos_top-14, f'Cliente: {nombre}')
-    c.drawString(30, datos_top-28, f'Dirección: {direccion}, {ciudad}')
-    c.drawString(30, datos_top-42, f'Teléfono: {telefono}')
-
-    # --- Tabla de productos ---
-    y = datos_top-65
-    c.setFont('Helvetica-Bold', 11)
-    c.setFillColor(colors.HexColor('#BA55D3'))
-    c.roundRect(24, y-7, width-48, 22, 7, fill=1, stroke=0)
-    c.setFillColor(colors.white)
-    c.drawString(32, y+6, 'Producto')
-    c.drawString(200, y+6, 'Cantidad')
-    c.drawString(270, y+6, 'Precio')
-    c.setFillColor(colors.black)
-    y -= 18
-    c.setFont('Helvetica', 9)
-    for idx, prod in enumerate(productos):
-        # Fondo alternado
-        if idx % 2 == 0:
-            c.setFillColor(colors.HexColor('#f3eaff'))
-            c.roundRect(24, y-3, width-48, 16, 5, fill=1, stroke=0)
-        c.setFillColor(colors.black)
-        c.drawString(32, y+6, prod.get('nombre', ''))
-        c.drawString(200, y+6, str(prod.get('cantidad', 1)))
-        c.drawString(270, y+6, f"${prod.get('precio', 0):.2f}")
-        y -= 15
-    # Línea final
+    c.roundRect(18, encabezado_top - encabezado_height, width-36, encabezado_height, 22, fill=1, stroke=0)    # Se baja el bloque morado 18px más abajo
+    c.roundRect(18, encabezado_top - encabezado_height + 18, width-36, 24, 22, fill=1, stroke=0)
     c.setStrokeColor(colors.HexColor('#BA55D3'))
+    c.setLineWidth(2)
+    c.line(18, encabezado_top - encabezado_height, width-18, encabezado_top - encabezado_height)
+    c.restoreState()
+    c.setFont('Helvetica-Bold', 14)
+    c.setFillColor(colors.white)
+    c.drawRightString(width-32, encabezado_top-16, f"Pedido #{pedido_id_str}")
+    c.setFont('Helvetica-Bold', 18)
+    c.drawCentredString(width/2, encabezado_top-40, 'UrbanCase - Ticket de Compra')
+
+    # --- Datos del cliente alineados y con iconos ---
+    datos_top = encabezado_top - encabezado_height - 32  # +10px de espacio extra
+    c.setFont('Helvetica', 11)
+    c.setFillColor(colors.HexColor('#22223B'))
+    c.drawString(36, datos_top, f' Fecha: {fecha}')
+    c.drawString(36, datos_top-16, f' Cliente: {nombre}')
+    c.drawString(36, datos_top-32, f' Correo: {correo}')
+    c.drawString(36, datos_top-48, f' Dirección: {direccion}, {ciudad}')
+    c.drawString(36, datos_top-64, f' Teléfono: {telefono}')
+    # Línea separadora suave
+    c.setStrokeColor(colors.HexColor('#ececff'))
     c.setLineWidth(1)
-    c.line(24, y+12, width-24, y+12)
+    c.line(28, datos_top-82, width-28, datos_top-82)  # +8px de espacio extra
 
-    # --- Total destacado (más espacio y a la derecha, bien dimensionado y alineado) ---
-    y_total = y - 30
-    box_width = 180
-    box_height = 36
-    box_x = width - box_width - 24
-    c.setFillColor(colors.HexColor('#6A5ACD'))
-    c.roundRect(box_x, y_total, box_width, box_height, 10, fill=1, stroke=0)
+    # --- Tabla de productos elegante y bien distribuida ---
+    y = datos_top-105  # +18px de espacio extra
     c.setFont('Helvetica-Bold', 12)
-    c.setFillColor(colors.white)
-    # Alinear "Total:" y el monto en la misma línea, separados
-    c.drawString(box_x + 18, y_total + 22, 'Total:')
-    c.setFont('Helvetica-Bold', 15)
-    c.drawRightString(box_x + box_width - 18, y_total + 22, f"${total:.2f} MXN")
-
-    # --- Pie de página con fondo ---
     c.setFillColor(colors.HexColor('#BA55D3'))
-    c.roundRect(0, 18, width, 28, 0, fill=1, stroke=0)
-    c.setFont('Helvetica-BoldOblique', 10)
+    c.roundRect(28, y-8, width-56, 26, 12, fill=1, stroke=0)
     c.setFillColor(colors.white)
-    c.drawCentredString(width/2, 32, '¡Gracias por tu compra en UrbanCase!')
+    c.drawString(36, y+8, 'Producto')
+    c.drawString(180, y+8, 'Cantidad')
+    c.drawString(260, y+8, 'Precio')
+    c.setFillColor(colors.HexColor('#22223B'))
+    y -= 20
+    c.setFont('Helvetica', 11)
+    for idx, prod in enumerate(productos):
+        # Fondo alternado y línea inferior
+        if idx % 2 == 0:
+            c.setFillColor(colors.HexColor('#ececff'))
+        else:
+            c.setFillColor(colors.HexColor('#f7f7fa'))
+        c.roundRect(28, y-4, width-56, 18, 8, fill=1, stroke=0)
+        c.setFillColor(colors.HexColor('#22223B'))
+        c.drawString(36, y+6, prod.get('nombre', ''))
+        c.drawString(180, y+6, str(prod.get('cantidad', 1)))
+        c.drawString(260, y+6, f"${prod.get('precio', 0):.2f}")
+        # Línea inferior suave
+        c.setStrokeColor(colors.HexColor('#ececff'))
+        c.setLineWidth(0.5)
+        c.line(32, y-2, width-32, y-2)
+        y -= 16
+
+    # --- Total destacado con gradiente y sombra ---
+    y_total = y - 44  # +12px de espacio extra
+    box_width = 190
+    box_height = 40
+    box_x = width - box_width - 28
+    c.saveState()
+    c.setFillColor(colors.HexColor('#6A5ACD'))
+    c.roundRect(box_x, y_total, box_width, box_height, 14, fill=1, stroke=0)
+    c.setFillColor(colors.HexColor('#8A2BE2'))
+    c.roundRect(box_x, y_total, box_width, 18, 14, fill=1, stroke=0)
+    c.restoreState()
+    c.setFont('Helvetica-Bold', 14)
+    c.setFillColor(colors.white)
+    c.drawString(box_x + 22, y_total + 26, 'Total:')
+    c.setFont('Helvetica-Bold', 18)
+    c.drawRightString(box_x + box_width - 22, y_total + 26, f"${total:.2f} MXN")
+
+    # --- Pie de página con gradiente y mensaje claro ---
+    c.saveState()
+    c.setFillColor(colors.HexColor('#BA55D3'))
+    c.roundRect(0, 18, width, 32, 0, fill=1, stroke=0)
+    c.setFillColor(colors.HexColor('#6A5ACD'))
+    c.roundRect(0, 18, width, 16, 0, fill=1, stroke=0)
+    c.restoreState()
+    c.setFont('Helvetica-BoldOblique', 11)
+    c.setFillColor(colors.white)
+    c.drawCentredString(width/2, 34, '¡Gracias por tu compra en UrbanCase!')
     c.setFont('Helvetica-Oblique', 8)
-    c.drawCentredString(width/2, 22, 'Este ticket es tu comprobante de compra.')
+    c.drawCentredString(width/2, 24, 'Este ticket es tu comprobante de compra. UrbanCase® 2025')
 
     c.showPage()
     c.save()

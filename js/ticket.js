@@ -2,6 +2,7 @@ function getDatosCompra() {
     const formEntrega = document.getElementById('form-entrega');
     const formData = new FormData(formEntrega);
     const nombre = formData.get('nombre') || '';
+    const correo = formData.get('correo') || ''; // Obteniendo el correo
     const direccion = formData.get('direccion') || '';
     const ciudad = formData.get('ciudad') || '';
     const telefono = formData.get('telefono') || '';
@@ -15,14 +16,31 @@ function getDatosCompra() {
             precio: item.precio
         };
     });
-    return { nombre, direccion, ciudad, telefono, productos, total };
+    return { nombre, correo, direccion, ciudad, telefono, productos, total }; // Incluyendo correo en los datos de compra
 }
 
 function enviarYDescargarTicket(datosCompra) {
+    const form = document.getElementById('form-entrega');
+    const nombre = form.elements['nombre'].value;
+    const correo = form.elements['correo'].value; // <-- toma el correo digitado
+    const direccion = form.elements['direccion'].value;
+    const ciudad = form.elements['ciudad'].value;
+    const telefono = form.elements['telefono'].value;
+
+    const pedido = {
+        nombre,
+        correo,
+        direccion,
+        ciudad,
+        telefono,
+        productos: datosCompra.productos,
+        total: datosCompra.total
+    };
+
     fetch('http://127.0.0.1:5000/generar_ticket', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datosCompra)
+        body: JSON.stringify(pedido)
     })
     .then(response => response.blob())
     .then(blob => {
